@@ -19,6 +19,7 @@
     justify-content: space-around;
     align-items: center;
     gap: 50px;
+    box-sizing: border-box
 }
 
 .right-section form, .left-section form{
