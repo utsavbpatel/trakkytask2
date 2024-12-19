@@ -30,11 +30,11 @@ function Spa() {
                 },
                 body: JSON.stringify(formData),
             });
-            if(response.ok){
+            if (response.ok) {
                 alert('Data added successfully')
-            }else{
+            } else {
                 throw new Error(`Error: ${response.status}`);
-            } 
+            }
         } catch (error) {
             console.error("POST Error:", error);
             throw error;
@@ -66,44 +66,60 @@ function Spa() {
                     </form>
                 </div>
                 <div className="right-section">
-                    <form >
-                        <h3>Preview</h3>
-                        <label>Spa Name</label>
-                        <input type='text' value={formData.spa_name} disabled />
-                        <label>City</label>
-                        <input type='text' value={formData.city} disabled />
-                        <label>Area</label>
-                        <input type='text' value={formData.area} disabled />
-                        <label>Price</label>
-                        <input type='number' value={formData.price} disabled />
-                        <label>Timing</label>
-                        <input type='time' value={formData.timing} disabled />
-                        <label>Images</label>
-                        <div className="image-preview">
-                            {formData.images.length <= 0 &&
-                                <p>Images are not selected yet.</p>
-                            }
-                            {formData.images.length > 0 && (
-                                <Swiper
-                                    spaceBetween={10}
-                                    slidesPerView={1}
-                                    navigation
-                                    pagination={{ clickable: true }}
-                                    modules={[Navigation, Pagination]}
-                                >
-                                    {formData.images.map((image, index) => (
-                                        <SwiperSlide key={index}>
-                                            <img
-                                                src={URL.createObjectURL(image)}
-                                                alt={`Preview ${index + 1}`}
-                                                style={{ width: '100%', height: 'auto' }}
-                                            />
-                                        </SwiperSlide>
-                                    ))}
-                                </Swiper>
+                    <div className="card">
+                        {formData.images &&
+                            <div className="card-image">
+                                {formData.images.length > 0 && (
+                                    <Swiper
+                                        spaceBetween={10}
+                                        slidesPerView={1}
+                                        navigation
+                                        pagination={{ clickable: true }}
+                                        modules={[Navigation, Pagination]}
+                                    >
+                                        {formData.images.map((image, index) => (
+                                            <SwiperSlide key={index}>
+                                                <img
+                                                    src={URL.createObjectURL(image)}
+                                                    alt={`Preview ${index + 1}`}
+                                                    style={{ width: '400px', height: 'auto' }}
+                                                />
+                                            </SwiperSlide>
+                                        ))}
+                                    </Swiper>
+                                )}
+                            </div>
+                        }
+                        <div className="card-content">
+                            {formData.timing && (
+                                <div>
+                                    <p>
+                                        {new Intl.DateTimeFormat('en-IN', {
+                                            hour: '2-digit',
+                                            minute: '2-digit',
+                                            hour12: true,
+                                        }).format(new Date(`1970-01-01T${formData.timing}`))} Onwards
+                                    </p>
+                                </div>
                             )}
+
+
+                            {formData.spa_name &&
+                                <div>
+                                    <h3>{formData.spa_name}</h3>
+                                </div>}
+                            {formData.city && formData.area &&
+                                <div>
+                                    <p>{formData.area}, {formData.city}</p>
+                                </div>
+                            }
+                            {formData.price &&
+                                <div>
+                                    <p>{formData.price} Onwards</p>
+                                </div>
+                            }
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
